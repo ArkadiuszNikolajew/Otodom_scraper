@@ -1,0 +1,9 @@
+otodom_filters:
+  city_name: 'Jelenia Góra'
+  offer_type: 'sprzedaz'
+  created_since: 30
+  distance: 25
+  categories:
+    - 'dom'
+    - 'mieszkanie'
+    - 'dzialka'

@@ -1,20 +1,21 @@
 from datetime import datetime
 from scrapy.item import Item, Field
-from itemloaders.processors import MapCompose
 
 
-def to_float(text):
+def serialize_to_int(text):
     try:
-        return float(text)
-    except:
-        return text
+        text = int(text)
+    except ValueError:
+        text = ''
+    return text
 
 
-def to_int(text):
+def serialize_to_float(text):
     try:
-        return int(text)
-    except:
-        return text
+        text = float(text)
+    except ValueError:
+        text = ''
+    return text
 
 
 def set_oferrer(text):
@@ -30,81 +31,29 @@ def to_datetime_object(text):
     return datetime.strptime(text, '%Y-%m-%d %H:%M:%S')
 
 
-class HomescrapingItem(Item):
-
-    category = Field(
-        input_processor=MapCompose(
-            str.strip, str.capitalize)
-            )
-    page = Field()
+class HouseScrapingItem(Item):
+    category = Field()
     link = Field()
-    region = Field() 
+    region = Field()
     subregion = Field()
     city = Field()
     district = Field()
-    latitude = Field()
-    longitude = Field()
-    title = Field(
-        input_processor=MapCompose(str.strip)
-            )
-    area = Field(
-        input_processor=MapCompose(
-            str.strip, to_float)
-            )
-    building_type = Field(
-        input_processor=MapCompose(
-            str.strip, str.capitalize)
-            )
-    price = Field(
-        input_processor=MapCompose(
-        str.strip, to_int)
-        )
-    price_per_m2 = Field(
-        input_processor=MapCompose(
-            str.strip, to_int)
-            )
-    rooms = Field(
-        input_processor=MapCompose(
-        str.strip, to_int)
-    )
-    floor = Field(
-        input_processor=MapCompose(
-        str.strip, to_int)
-    )
-    market = Field(
-        input_processor=MapCompose(
-        str.strip, str.capitalize)
-    )
-    construction_status = Field(
-        input_processor=MapCompose(
-        str.strip, str.capitalize)
-    )
-    terrain_type = Field(
-        input_processor=MapCompose(
-        str.strip, str.capitalize)
-    )
-    terrain_area = Field(
-        input_processor=MapCompose(
-        str.strip, to_float)
-    )
-    build_year = Field(
-        input_processor=MapCompose(
-        str.strip, to_int)
-    )
-    oferrer = Field(
-        input_processor=MapCompose(
-        str.strip, set_oferrer)
-    )
-    offer_id = Field(
-        input_processor=MapCompose(
-        str)
-    )
-    added = Field(
-        input_processor=MapCompose(
-        str.strip, to_datetime_object)
-    )
-    last_modified = Field(
-        input_processor=MapCompose(
-        str.strip, to_datetime_object)
-    )
+    latitude = Field(serializer=serialize_to_float)
+    longitude = Field(serializer=serialize_to_float)
+    title = Field()
+    area = Field(serializer=serialize_to_float)
+    building_type = Field(serializer=str.capitalize)
+    price = Field(serializer=serialize_to_int)
+    price_per_m2 = Field(serializer=serialize_to_int)
+    rooms = Field(serializer=serialize_to_int)
+    floor = Field(serializer=serialize_to_int)
+    market = Field(serializer=str.capitalize)
+    construction_status = Field(serializer=str.capitalize)
+    terrain_type = Field(serializer=str.capitalize)
+    terrain_area = Field(serializer=serialize_to_float)
+    build_year = Field(serializer=serialize_to_int)
+    oferrer = Field(serializer=set_oferrer)
+    offer_id = Field()
+    added = Field(serializer=to_datetime_object)
+    last_modified = Field(serializer=to_datetime_object)
     scraped = Field()
