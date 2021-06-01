@@ -9,7 +9,7 @@ class OtodomSpiderSettings:
     base_url = 'https://www.otodom.pl/'
 
     def __init__(self):
-        with open(BASE_DIR / 'settings/setup.yml', 'r') as setup_file:
+        with open(BASE_DIR / 'house_scraper/settings/setup.yml', 'r') as setup_file:
             self.settings = yaml.safe_load(setup_file)['otodom_filters']
         self.start_urls = []
 

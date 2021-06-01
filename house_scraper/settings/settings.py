@@ -2,7 +2,7 @@ import random
 from pathlib import Path
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent
 
 BOT_NAME = 'house_scraper'
 SPLASH_URL = 'http://localhost:8050'
@@ -62,7 +62,7 @@ AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 AUTOTHROTTLE_DEBUG = False
 
 FEEDS = {
-    '../offers/%(name)s/%(time)s.jsonl': {
+    BASE_DIR / 'offers/%(name)s/%(time)s.jsonl': {
         'format': 'jsonlines',
         'encoding': 'utf8',
         'store_empty': False,
